@@ -19,15 +19,17 @@ type TraceEventMeta struct {
 	Origin         libpf.Origin
 	OffTime        int64
 	EnvVars        map[string]string
+	CorrelationID  uint64
 }
 
 // TraceEvents holds known information about a trace.
 type TraceEvents struct {
-	Frames     libpf.Frames
-	Timestamps []uint64 // in nanoseconds
-	OffTimes   []int64  // in nanoseconds
-	EnvVars    map[string]string
-	Labels     map[string]string
+	Frames        libpf.Frames
+	Timestamps    []uint64 // in nanoseconds
+	OffTimes      []int64  // in nanoseconds
+	EnvVars       map[string]string
+	Labels        map[string]string
+	CorrelationID uint64
 }
 
 // TraceAndMetaKey is the deduplication key for samples. This **must always**
@@ -48,6 +50,8 @@ type TraceAndMetaKey struct {
 	ProcessName string
 	// Executable path is retrieved from /proc/PID/exe
 	ExecutablePath string
+
+	CorrelationID uint64
 
 	// ExtraMeta stores extra meta info that may have been produced by a
 	// `SampleAttrProducer` instance. May be nil.

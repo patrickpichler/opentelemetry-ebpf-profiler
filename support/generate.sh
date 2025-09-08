@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 set -eu
 
 # Put license header at the top of the file

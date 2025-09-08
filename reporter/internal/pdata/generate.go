@@ -231,6 +231,14 @@ func (p *Pdata) setProfile(
 			_, exeName = filepath.Split(exeName)
 		}
 
+		if traceInfo.CorrelationID > 0 {
+			attrMgr.AppendInt(
+				sample.AttributeIndices(),
+				"correlation_id",
+				int64(traceInfo.CorrelationID),
+			)
+		}
+
 		attrMgr.AppendOptionalString(sample.AttributeIndices(),
 			semconv.ThreadNameKey, traceKey.Comm)
 

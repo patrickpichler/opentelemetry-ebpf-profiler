@@ -219,8 +219,9 @@ func (pm *ProcessManager) ConvertTrace(trace *host.Trace) (newTrace *libpf.Trace
 	traceLen := len(trace.Frames)
 	kernelFramesLen := len(trace.KernelFrames)
 	newTrace = &libpf.Trace{
-		Frames:       make(libpf.Frames, kernelFramesLen, kernelFramesLen+traceLen),
-		CustomLabels: trace.CustomLabels,
+		Frames:        make(libpf.Frames, kernelFramesLen, kernelFramesLen+traceLen),
+		CustomLabels:  trace.CustomLabels,
+		CorrelationID: trace.CorrelationID,
 	}
 	copy(newTrace.Frames, trace.KernelFrames)
 

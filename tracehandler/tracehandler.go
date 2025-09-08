@@ -129,6 +129,7 @@ func (m *traceHandler) HandleTrace(bpfTrace *host.Trace) {
 		Origin:         bpfTrace.Origin,
 		OffTime:        bpfTrace.OffTime,
 		EnvVars:        bpfTrace.EnvVars,
+		CorrelationID:  bpfTrace.CorrelationID,
 	}
 
 	if trace, exists := m.traceCache.GetAndRefresh(bpfTrace.Hash,

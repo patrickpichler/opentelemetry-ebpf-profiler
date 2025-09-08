@@ -172,6 +172,7 @@ type Trace struct {
 	Stack_len          uint32
 	Origin             uint32
 	Offtime            uint64
+	Correlation_id     uint64
 	Frames             [128]Frame
 }
 type UnwindInfo struct {
@@ -312,7 +313,7 @@ type V8ProcInfo struct {
 const (
 	Sizeof_Frame      = 0x18
 	Sizeof_StackDelta = 0x4
-	Sizeof_Trace      = 0xed0
+	Sizeof_Trace      = 0xed8
 
 	sizeof_ApmIntProcInfo = 0x8
 	sizeof_DotnetProcInfo = 0x4

@@ -574,6 +574,9 @@ typedef struct Trace {
   // offtime stores the nanoseconds that the trace was off-cpu for.
   u64 offtime;
 
+  // ID used to correlate custom uprobe__generic invocations
+  u64 correlation_id;
+
   // The frames of the stack trace.
   Frame frames[MAX_FRAME_UNWINDS];
 

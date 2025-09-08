@@ -886,6 +886,7 @@ func (t *Tracer) loadBpfTrace(raw []byte, cpu int) *host.Trace {
 		KTime:            times.KTime(ptr.Ktime),
 		CPU:              cpu,
 		EnvVars:          procMeta.EnvVariables,
+		CorrelationID:    ptr.Correlation_id,
 	}
 
 	switch trace.Origin {
