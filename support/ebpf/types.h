@@ -601,6 +601,9 @@ typedef struct Trace {
   // offtime stores the nanoseconds that the trace was off-cpu for.
   u64 offtime;
 
+  // ID used to correlate custom uprobe__generic invocations
+  u64 correlation_id;
+
   // The frame data of the stack trace. Each frame is variable length.
   // Frame is currently 2-3 entries long. This array size limits the
   // number of frames we can unwind, but also increases the memory

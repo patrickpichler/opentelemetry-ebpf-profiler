@@ -308,9 +308,9 @@ static inline EBPF_INLINE u64 frame_header(u8 frame_type, u8 flags, u8 length, u
   //      4   frame type
   //      4   frame flags
   //      4   number of 64-bit 'variable' fields
-  //     52   type specific data
+  //     60   type specific data
   return ((u64)frame_type << 60) | ((u64)flags << 56) | ((u64)length << 52) |
-         (data & ((1ULL << 52) - 1));
+         (data & ((1ULL << 60) - 1));
 }
 
 // Push a data frame with variable length payload. This function allocates space from
@@ -711,7 +711,13 @@ get_usermode_regs(struct pt_regs *ctx, UnwindState *state, bool *has_usermode_re
 #endif // TESTING_COREDUMP
 
 static inline EBPF_INLINE int collect_trace(
-  struct pt_regs *ctx, TraceOrigin origin, u32 pid, u32 tid, u64 trace_timestamp, u64 off_cpu_time)
+  struct pt_regs *ctx,
+  TraceOrigin origin,
+  u32 pid,
+  u32 tid,
+  u64 trace_timestamp,
+  u64 off_cpu_time,
+  u64 correlation_id)
 {
   // The trace is reused on each call to this function so we have to reset the
   // variables used to maintain state.
@@ -721,12 +727,13 @@ static inline EBPF_INLINE int collect_trace(
     return -1;
   }
 
-  Trace *trace   = &record->trace;
-  trace->origin  = origin;
-  trace->pid     = pid;
-  trace->tid     = tid;
-  trace->ktime   = trace_timestamp;
-  trace->offtime = off_cpu_time;
+  Trace *trace          = &record->trace;
+  trace->origin         = origin;
+  trace->pid            = pid;
+  trace->tid            = tid;
+  trace->ktime          = trace_timestamp;
+  trace->offtime        = off_cpu_time;
+  trace->correlation_id = correlation_id;
   if (bpf_get_current_comm(&(trace->comm), sizeof(trace->comm)) < 0) {
     increment_metric(metricID_ErrBPFCurrentComm);
   }
