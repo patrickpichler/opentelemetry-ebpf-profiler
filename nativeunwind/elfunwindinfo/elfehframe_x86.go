@@ -139,7 +139,7 @@ func (regs *vmRegs) getUnwindInfoX86() sdtypes.UnwindInfo {
 			info.Opcode = support.UnwindOpcodeBaseSP
 			info.Param = int32(regs.cfa.off)
 		}
-	case x86RegRAX, x86RegR9, x86RegR11, x86RegR15:
+	case x86RegRAX, x86RegRDX, x86RegRDI, x86RegR9, x86RegR11, x86RegR15:
 		// openssl libcrypto has handwritten assembly that use these registers
 		// as the CFA directly. These function do not call other code that would
 		// trash the register, so allow these for libcrypto.

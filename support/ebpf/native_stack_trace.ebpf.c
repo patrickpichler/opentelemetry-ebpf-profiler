@@ -315,6 +315,12 @@ static EBPF_INLINE u64 unwind_register_address(UnwindState *state, u64 cfa, u8 o
     case 0: // rax
       addr = state->rax;
       break;
+    case 1: // rdx
+      addr = state->rdx;
+      break;
+    case 5: // rdi
+      addr = state->rdi;
+      break;
     case 9: // r9
       addr = state->r9;
       break;
@@ -415,6 +421,8 @@ static EBPF_INLINE ErrorCode unwind_one_frame(UnwindState *state, bool *stop)
         goto err_native_pc_read;
       }
       state->rax            = rt_regs[13];
+      state->rdx            = rt_regs[12];
+      state->rdi            = rt_regs[8];
       state->r9             = rt_regs[1];
       state->r11            = rt_regs[3];
       state->r13            = rt_regs[5];
